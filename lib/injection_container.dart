@@ -16,7 +16,7 @@ final GetIt locator = GetIt.instance;
 
 Future<void> setup() async {
   //! Features - Number Trivia
-  locator.registerFactory<NumberTriviaBloc>(
+  locator.registerFactory(
     () => NumberTriviaBloc(
       getConcreteNumberTrivia: locator(),
       getRandomNumberTrivia: locator(),
@@ -31,9 +31,9 @@ Future<void> setup() async {
   // Repository
   locator.registerLazySingleton<NumberTriviaRepository>(
     () => NumberTriviaRepositoryImpl(
-      remoteDataSource: locator(),
       localDataSource: locator(),
       networkInfo: locator(),
+      remoteDataSource: locator(),
     ),
   );
 
@@ -52,6 +52,6 @@ Future<void> setup() async {
   //! External
   final sharedPreferences = await SharedPreferences.getInstance();
   locator.registerLazySingleton(() => sharedPreferences);
-  locator.registerLazySingleton(() => http.Client);
+  locator.registerLazySingleton(() => http.Client());
   locator.registerLazySingleton(() => DataConnectionChecker());
 }
